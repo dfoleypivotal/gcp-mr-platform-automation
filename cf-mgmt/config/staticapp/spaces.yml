@@ -1,0 +1,4 @@
+org: staticapp
+spaces:
+- demo
+enable-delete-spaces: true

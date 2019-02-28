@@ -1,0 +1,9 @@
+enable-delete-isolation-segments: false
+enable-unassign-security-groups: false
+enable-service-access: false
+running-security-groups: []
+staging-security-groups: []
+shared-domains:
+  apps.gcp2.mfisch.io:
+    internal: false
+enable-remove-shared-domains: false

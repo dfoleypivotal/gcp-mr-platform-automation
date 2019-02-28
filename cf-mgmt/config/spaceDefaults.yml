@@ -1,0 +1,17 @@
+space-developer:
+  ldap_users: []
+  users:
+  - admin
+  saml_users: []
+  ldap_groups: []
+space-manager:
+  ldap_users: []
+  users:
+  - matt
+  saml_users: []
+  ldap_groups: []
+space-auditor:
+  ldap_users: []
+  users: []
+  saml_users: []
+  ldap_groups: []

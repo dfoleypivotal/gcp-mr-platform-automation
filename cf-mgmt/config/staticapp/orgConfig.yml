@@ -1,0 +1,36 @@
+org: staticapp
+org-billingmanager:
+  ldap_users: []
+  users: []
+  saml_users: []
+  ldap_groups: []
+org-manager:
+  ldap_users: []
+  users:
+  - matt
+  - admin
+  saml_users: []
+  ldap_groups: []
+org-auditor:
+  ldap_users: []
+  users: []
+  saml_users: []
+  ldap_groups: []
+private-domains: []
+enable-remove-private-domains: false
+shared-private-domains: []
+enable-remove-shared-private-domains: false
+enable-org-quota: true
+memory-limit: 15360
+instance-memory-limit: -1
+total-routes: 1000
+total-services: 100
+paid-service-plans-allowed: true
+enable-remove-users: false
+total_private_domains: -1
+total_reserved_route_ports: 0
+total_service_keys: -1
+app_instance_limit: -1
+app_task_limit: 0
+default_isolation_segment: ""
+service-access: {}

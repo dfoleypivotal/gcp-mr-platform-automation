@@ -1,0 +1,9 @@
+orgs:
+- staticapp
+enable-delete-orgs: true
+protected_orgs:
+- system
+- p-spring-cloud-services
+- splunk-nozzle-org
+- redis-test-ORG*
+- appdynamics-org

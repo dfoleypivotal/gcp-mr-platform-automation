@@ -1,0 +1,35 @@
+singleton_availability_zone: us-central1-b
+az2_name: us-central1-a
+az3_name: us-central1-c
+cloud_controller/system_domain: sys.central.gcp2.mfisch.io
+cloud_controller/apps_domain: apps.central.gcp2.mfisch.io
+
+router_elb_names:
+  - tcp:central-cf-ws
+  - http:central-httpslb
+
+system_database/external/host: &db_host 35.193.13.237   #from terraform (sql_db_ip)
+system_database/external/port: &db_port 3306
+db_username: &db_username 60KdVIdH78w                   #from terraform (pas_sql_username)
+system_database/external/account_username: *db_username
+system_database/external/app_usage_service_username: *db_username
+system_database/external/autoscale_username: *db_username
+system_database/external/ccdb_username: *db_username
+system_database/external/diego_username: *db_username
+system_database/external/locket_username: *db_username
+system_database/external/networkpolicyserver_username: *db_username
+system_database/external/nfsvolume_username: *db_username
+system_database/external/notifications_username: *db_username
+system_database/external/routing_username: *db_username
+system_database/external/silk_username: *db_username
+
+uaa_database/external/host: *db_host
+uaa_database/external/port: *db_port
+uaa_database/external/uaa_username: *db_username
+
+system_blobstore/external_gcs_service_account/buildpacks_bucket: cso-pcfs-americas-mafischer2-central-buildpacks
+system_blobstore/external_gcs_service_account/droplets_bucket: cso-pcfs-americas-mafischer2-central-droplets
+system_blobstore/external_gcs_service_account/packages_bucket: cso-pcfs-americas-mafischer2-central-packages
+system_blobstore/external_gcs_service_account/resources_bucket: cso-pcfs-americas-mafischer2-central-resources
+system_blobstore/external_gcs_service_account/project_id: cso-pcfs-americas-mafischer2
+system_blobstore/external_gcs_service_account/service_account_email: central-blobstore-account2@cso-pcfs-americas-mafischer2.iam.gserviceaccount.com"

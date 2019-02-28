@@ -1,0 +1,6 @@
+git_repo_uri: git@github.com:pivotal/gcp-mr-platform-automation.git
+git_repo_branch: master
+user_id: cf-mgmt
+client_secret: ((cf-mgmt-secret))
+log_level: INFO
+cf_mgmt_root: cf-mgmt

@@ -1,0 +1,47 @@
+environment_root: environments/central
+version_root: environments/global/versions
+state_bucket: gcp-mr-state-mfisch-central
+git_repo: git@github.com:pivotal/gcp-mr-platform-automation.git
+
+opsman_target: pcf.central.gcp2.mfisch.io
+opsman_skip_ssl_validation: true
+opsman_username: admin
+opsman_connect_timeout: 1600
+opsman_request_timeout: 1800
+
+opsman_vars_files: |
+  vars/environments/central/opsman.yml
+  secrets/product.yml
+
+director_vars_files: |
+  vars/environments/central/director.yml
+  secrets/product.yml
+
+pas_config_opsfile: |
+  config/features/nfs_volume_driver-disable.yml
+  config/features/haproxy_forward_tls-disable.yml
+  config/network/3-az-configuration.yml
+  config/features/system_blobstore-external_gcs_service_account.yml
+  config/features/system_database-external.yml
+  config/resource/router_elb_names.yml
+  config/features/uaa_database-external.yml
+pas_vars_files: |
+  config/product-default-vars.yml
+  config/resource-vars.yml
+  config/errand-vars.yml
+  vars/environments/central/cf.yml
+  vars/environments/global/cf.yml
+  secrets/product.yml
+
+healthwatch_config_opsfile: |
+  config/features/boshtasks-disable.yml
+  config/network/3-az-configuration.yml
+  config/resource/healthwatch-forwarder_internet_connected.yml
+  config/resource/mysql_internet_connected.yml
+  config/resource/redis_internet_connected.yml
+healthwatch_vars_files: |
+  config/product-default-vars.yml
+  config/resource-vars.yml
+  config/errand-vars.yml
+  vars/environments/central/p-healthwatch.yml
+  vars/environments/global/p-healthwatch.yml

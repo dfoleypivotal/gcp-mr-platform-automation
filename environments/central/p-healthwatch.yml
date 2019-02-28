@@ -1,0 +1,5 @@
+opsman/enable/url: https://pcf.central.gcp2.mfisch.io/
+singleton_availability_zone: us-central1-a
+az2_name: us-central1-b
+az3_name: us-central1-c
+healthwatch-forwarder/health_check_az: us-central1-c

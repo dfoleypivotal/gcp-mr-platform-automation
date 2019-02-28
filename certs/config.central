@@ -1,0 +1,28 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+req_extensions = req_ext
+distinguished_name = dn
+
+[ dn ]
+C=US
+ST=CO
+L=Fort Collins
+O=PCFS
+OU=Testing Domain
+emailAddress=mafischer@pivotal.io
+CN = *.gcp2.mfisch.io
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = *.apps.gcp2.mfisch.io
+DNS.2 = *.sys.gcp2.mfisch.io
+DNS.3 = *.login.sys.gcp2.mfisch.io
+DNS.4 = *.uaa.sys.gcp2.mfisch.io
+DNS.5 = *.apps.central.gcp2.mfisch.io
+DNS.6 = *.sys.central.gcp2.mfisch.io
+DNS.7 = *.login.central.sys.gcp2.mfisch.io
+DNS.8 = *.uaa.central.sys.gcp2.mfisch.io

@@ -1,0 +1,289 @@
+resources:
+- name: config-repo
+  type: git
+  source:
+    uri: {{git_repo_uri}}
+    branch: {{git_repo_branch}}
+    private_key: ((git_private_key.private_key))
+- name: 15m
+  type: time
+  source: {interval: 15m}
+
+jobs:
+- name: create-orgs
+  plan:
+  - get: config-repo
+    trigger: true
+  - task: create-orgs
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: create-orgs
+
+- name: shared-domains
+  plan:
+  - get: config-repo
+    trigger: true
+  - task: shared-domains
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: shared-domains
+
+- name: create-security-groups
+  plan:
+  - get: config-repo
+    trigger: true
+  - task: create-security-groups
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: create-security-groups
+
+- name: assign-default-security-groups
+  plan:
+  - get: config-repo
+    trigger: true
+    passed: [create-security-groups]
+  - task: assign-default-security-groups
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: assign-default-security-groups
+
+- name: delete-orgs
+  plan:
+  - get: config-repo
+    trigger: true
+  - get: 15m
+    trigger: true
+  - task: delete-orgs
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: delete-orgs
+
+- name: create-org-private-domains
+  plan:
+  - get: config-repo
+    passed: [create-orgs]
+    trigger: true
+  - task: create-org-private-domains
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: create-org-private-domains
+
+- name: service-access
+  plan:
+  - get: config-repo
+    passed: [create-orgs]
+    trigger: true
+  - task: service-access
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: service-access
+
+- name: share-org-private-domains
+  plan:
+  - get: config-repo
+    passed: [create-org-private-domains]
+    trigger: true
+  - task: share-org-private-domains
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: share-org-private-domains
+
+- name: create-spaces
+  plan:
+  - get: config-repo
+    passed: [create-orgs, update-org-users]
+    trigger: true
+  - task: create-spaces
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: create-spaces
+
+- name: delete-spaces
+  plan:
+  - get: config-repo
+    passed: [create-orgs]
+    trigger: true
+  - get: 15m
+    trigger: true
+  - task: delete-spaces
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: delete-spaces
+
+- name: update-spaces
+  plan:
+  - get: config-repo
+    passed: [create-spaces]
+    trigger: true
+  - task: update-spaces
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: update-spaces
+
+- name: update-space-users
+  plan:
+  - get: config-repo
+    passed: [create-spaces]
+    trigger: true
+  - get: 15m
+    trigger: true
+  - task: update-space-users
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: update-space-users
+
+- name: update-space-quotas
+  plan:
+  - get: config-repo
+    passed: [create-spaces]
+    trigger: true
+  - task: update-space-quotas
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: update-space-quotas
+
+- name: update-space-security-groups
+  plan:
+  - get: config-repo
+    passed: [create-spaces,create-security-groups]
+    trigger: true
+  - task: update-space-security-groups
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: update-space-security-groups
+
+- name: update-org-users
+  plan:
+  - get: config-repo
+    passed: [create-orgs]
+    trigger: true
+  - get: 15m
+    trigger: true
+  - task: update-org-users
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: update-org-users
+
+- name: update-org-quotas
+  plan:
+  - get: config-repo
+    passed: [create-orgs]
+    trigger: true
+  - task: update-org-quotas
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: update-org-quotas
+
+- name: isolation-segments
+  plan:
+  - get: config-repo
+    trigger: true
+    passed: [create-orgs, create-spaces]
+  - get: 15m
+    trigger: true
+  - task: isolation-segments
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: isolation-segments
+
+- name: cleanup-org-users
+  plan:
+  - get: config-repo
+    passed: [update-org-users,update-space-users]
+    trigger: true
+  - get: 15m
+    trigger: true
+  - task: cleanup-org-users
+    file: config-repo/((cf_mgmt_root))/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: ((system_domain))
+      USER_ID: {{user_id}}
+      CONFIG_DIR: ((cf_mgmt_root))/config
+      CLIENT_SECRET: ((cf-mgmt-secret))
+      LOG_LEVEL: {{log_level}}
+      CF_MGMT_COMMAND: cleanup-org-users
