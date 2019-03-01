@@ -1,6 +1,6 @@
 network_name: pas
 
-mysql_monitor/recipient_email: mafischer@pivotal.io
+mysql_monitor/recipient_email: dfoley@pivotal.io
 credhub_key_encryption_passwords_0/primary: true
 credhub_key_encryption_passwords_0/name: primary credhub secret
 networking_poe_ssl_certs_0/name: wildcard

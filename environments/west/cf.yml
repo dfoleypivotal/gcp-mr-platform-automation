@@ -1,16 +1,16 @@
 singleton_availability_zone: us-west1-b
 az2_name: us-west1-a
 az3_name: us-west1-c
-cloud_controller/system_domain: sys.west.gcp2.mfisch.io
-cloud_controller/apps_domain: apps.west.gcp2.mfisch.io
+cloud_controller/system_domain: sys.west.gcp.dfoleypivotal.com
+cloud_controller/apps_domain: apps.west.gcp.dfoleypivotal.com
 
 router_elb_names:
   - tcp:west-cf-ws
   - http:west-httpslb
 
-system_database/external/host: &db_host 35.230.53.108      #from terraform (sql_db_ip)
+system_database/external/host: &db_host 35.199.176.35      #from terraform (sql_db_ip)
 system_database/external/port: &db_port 3306
-db_username: &db_username bhIfobPMIzc                       #from terraform (pas_sql_username)
+db_username: &db_username Lgw6OwqS7js                       #from terraform (pas_sql_username)
 system_database/external/account_username: *db_username
 system_database/external/app_usage_service_username: *db_username
 system_database/external/autoscale_username: *db_username
@@ -27,9 +27,9 @@ uaa_database/external/host: *db_host
 uaa_database/external/port: *db_port
 uaa_database/external/uaa_username: *db_username
 
-system_blobstore/external_gcs_service_account/buildpacks_bucket: cso-pcfs-americas-mafischer2-west-buildpacks
-system_blobstore/external_gcs_service_account/droplets_bucket: cso-pcfs-americas-mafischer2-west-droplets
-system_blobstore/external_gcs_service_account/packages_bucket: cso-pcfs-americas-mafischer2-west-packages
-system_blobstore/external_gcs_service_account/resources_bucket: cso-pcfs-americas-mafischer2-west-resources
-system_blobstore/external_gcs_service_account/project_id: cso-pcfs-americas-mafischer2
-system_blobstore/external_gcs_service_account/service_account_email: west-blobstore@cso-pcfs-americas-mafischer2.iam.gserviceaccount.com\
+system_blobstore/external_gcs_service_account/buildpacks_bucket: fe-dfoley-west- buildpacks
+system_blobstore/external_gcs_service_account/droplets_bucket: fe-dfoley-west-droplets
+system_blobstore/external_gcs_service_account/packages_bucket: fe-dfoley-west-packages
+system_blobstore/external_gcs_service_account/resources_bucket: fe-dfoley-west-resources
+system_blobstore/external_gcs_service_account/project_id: fe-dfoley-west
+system_blobstore/external_gcs_service_account/service_account_email: cre-terraform@fe-dfoley.iam.gserviceaccount.com

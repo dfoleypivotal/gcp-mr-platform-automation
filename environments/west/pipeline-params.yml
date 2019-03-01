@@ -1,9 +1,9 @@
 environment_root: environments/west
 version_root: environments/global/versions
-state_bucket: gcp-mr-state-mfisch-west
-git_repo: git@github.com:pivotal/gcp-mr-platform-automation.git
+state_bucket: gcp-mr-state-dfoley-west
+git_repo: git@github.com:dfoleypivotal/gcp-mr-platform-automation.git
 
-opsman_target: pcf.west.gcp2.mfisch.io
+opsman_target: pcf.west.gcp.dfoleypivotal.com
 opsman_skip_ssl_validation: true
 opsman_username: admin
 opsman_connect_timeout: 1600
