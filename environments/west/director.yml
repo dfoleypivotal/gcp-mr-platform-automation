@@ -11,7 +11,7 @@ gcp_pas_network: west-pcf-network/west-pas-subnet/us-west1
 gcp_pas_network_cidr: 10.0.4.0/24
 gcp_pas_network_gateway: 10.0.4.1
 gcp_pas_network_reserverd_ip_ranges: 10.0.4.1-10.0.4.5
-gcp_project: cso-pcfs-americas-mafischer2
+gcp_project: fe-dfoley
 gcp_services_network: west-pcf-network/west-services-subnet/us-west1
 gcp_services_network_cidr: 10.0.8.0/24
 gcp_services_network_gateway: 10.0.8.1

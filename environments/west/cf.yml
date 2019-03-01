@@ -27,7 +27,7 @@ uaa_database/external/host: *db_host
 uaa_database/external/port: *db_port
 uaa_database/external/uaa_username: *db_username
 
-system_blobstore/external_gcs_service_account/buildpacks_bucket: fe-dfoley-west- buildpacks
+system_blobstore/external_gcs_service_account/buildpacks_bucket: fe-dfoley-west-buildpacks
 system_blobstore/external_gcs_service_account/droplets_bucket: fe-dfoley-west-droplets
 system_blobstore/external_gcs_service_account/packages_bucket: fe-dfoley-west-packages
 system_blobstore/external_gcs_service_account/resources_bucket: fe-dfoley-west-resources
