@@ -16,7 +16,7 @@ resources:
     config_provider: git
     version_root: {{version_root}}
     uri: {{git_repo}}
-    private_key: ((git_private_key))
+    private_key: ((git_private_key.private_key))
     branch: master
     file_provider: pivnet
     pivnet_token: ((pivnet_token))
@@ -25,7 +25,7 @@ resources:
   type: git
   source:
     uri: {{git_repo}}
-    private_key: ((git_private_key))
+    private_key: ((git_private_key.private_key))
 
 - name: state
   type: gcs-resource
